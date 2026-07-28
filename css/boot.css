@@ -1,0 +1,175 @@
+/* ============================================================
+   NXR here — boot / loading screen
+   Nothing glyph style: OLED black, LED matrix, dot-matrix type,
+   red #d71921 as the single signal color. percussive, not fluid.
+   ============================================================ */
+
+#boot{
+  position:fixed;inset:0;z-index:9999;
+  background:#000;
+  overflow:hidden;cursor:pointer;
+  transform-origin:50% 50%;
+}
+#bootCanvas{position:absolute;inset:0;opacity:.9}
+
+/* faint scanlines over the LEDs */
+#boot::after{
+  content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.02) 0 1px,transparent 1px 3px);
+}
+
+/* corner ticks */
+.tick{
+  position:absolute;width:20px;height:20px;z-index:3;
+  opacity:0;transform:scale(.5);
+  transition:opacity .3s ease-out,transform .3s ease-out;
+}
+.tick.tl{top:18px;left:18px;border-top:2px solid #d71921;border-left:2px solid #d71921}
+.tick.tr{top:18px;right:18px;border-top:2px solid #d71921;border-right:2px solid #d71921}
+.tick.bl{bottom:18px;left:18px;border-bottom:2px solid #d71921;border-left:2px solid #d71921}
+.tick.br{bottom:18px;right:18px;border-bottom:2px solid #d71921;border-right:2px solid #d71921}
+#boot.on .tick{opacity:1;transform:scale(1)}
+
+/* center stack */
+.boot-center{
+  position:absolute;inset:0;z-index:4;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:0 24px;
+}
+/* soft darkening so the wordmark dominates the LEDs */
+.boot-center::before{
+  content:'';position:absolute;inset:0;z-index:-1;
+  background:radial-gradient(closest-side at 50% 46%,rgba(0,0,0,.62),transparent 78%);
+}
+
+.boot-pre{
+  font-family:'Space Mono',ui-monospace,monospace;
+  font-size:11px;letter-spacing:.35em;text-transform:uppercase;
+  color:rgba(255,255,255,.45);
+  margin-bottom:30px;
+  opacity:0;transition:opacity .4s;
+}
+.boot-pre b{color:#d71921;font-weight:400}
+#boot.on .boot-pre{opacity:1}
+
+.boot-entering{
+  font-family:'Space Mono',ui-monospace,monospace;
+  font-size:clamp(13px,2.2vw,17px);
+  letter-spacing:.55em;text-transform:uppercase;
+  color:rgba(255,255,255,.78);
+  min-height:1.5em;margin-bottom:12px;
+}
+.boot-entering .cursor{
+  display:inline-block;width:.55em;height:1.05em;
+  background:#d71921;vertical-align:-.15em;margin-left:.25em;
+  animation:bootBlink .8s steps(1) infinite;
+}
+
+.boot-brand{
+  font-family:'Doto','Space Grotesk',sans-serif;
+  font-weight:900;
+  font-size:clamp(58px,13vw,152px);
+  line-height:.95;letter-spacing:.04em;
+  color:#f2f3f5;
+  opacity:0;
+}
+.boot-brand.on{animation:bootFlicker .7s steps(1,end) both}
+
+.boot-by{
+  font-family:'Space Mono',ui-monospace,monospace;
+  font-size:clamp(11px,1.8vw,14px);
+  letter-spacing:.5em;text-transform:uppercase;
+  color:rgba(255,255,255,.55);
+  margin-top:20px;
+  opacity:0;transform:translateY(6px);
+  transition:opacity .45s ease-out,transform .45s ease-out,letter-spacing .45s ease-out;
+}
+.boot-by.on{opacity:1;transform:none;letter-spacing:.62em}
+.boot-by b{color:#d71921;font-weight:400}
+
+/* segmented progress — percussive ticks, no smooth fill */
+.boot-bar{display:flex;gap:4px;height:10px;margin-top:46px}
+.boot-bar i{width:14px;height:100%;background:rgba(255,255,255,.1)}
+.boot-bar i.fill{background:#f2f3f5}
+.boot-bar.done i.fill{background:#d71921}
+
+.boot-status{
+  margin-top:22px;min-height:1.3em;
+  display:flex;align-items:center;gap:10px;
+  font-family:'Space Mono',ui-monospace,monospace;
+  font-size:11px;letter-spacing:.3em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);
+}
+.boot-status .sig{
+  width:6px;height:6px;border-radius:50%;background:#d71921;
+  animation:bootPulse 1.1s infinite;
+}
+.boot-status.granted{color:#d71921}
+
+/* red scan sweep */
+.boot-sweep{
+  position:absolute;top:0;bottom:0;left:-70px;width:56px;z-index:6;
+  background:linear-gradient(90deg,transparent,rgba(215,25,33,.13) 68%,#d71921 98%,transparent);
+  opacity:0;pointer-events:none;
+}
+.boot-sweep.go{animation:bootSweep .5s ease-in forwards}
+
+/* bottom metadata */
+.boot-meta{
+  position:absolute;bottom:22px;z-index:5;
+  font-family:'Space Mono',ui-monospace,monospace;
+  font-size:10px;letter-spacing:.25em;text-transform:uppercase;
+  color:rgba(255,255,255,.3);
+  display:flex;align-items:center;gap:8px;
+  opacity:0;transition:opacity .5s;
+}
+.boot-meta.bl{left:24px}
+.boot-meta.br{right:24px}
+.boot-meta .sig{width:5px;height:5px;border-radius:50%;background:#d71921;animation:bootPulse 1.1s infinite}
+#boot.on .boot-meta{opacity:1}
+
+.boot-skip{
+  position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:5;
+  font-family:'Space Mono',ui-monospace,monospace;
+  font-size:10px;letter-spacing:.3em;
+  color:rgba(255,255,255,.28);
+  opacity:0;transition:opacity .5s;
+}
+#boot.on .boot-skip{opacity:1}
+
+/* CRT power-off exit */
+#boot.boot-exit{animation:crtOff .55s cubic-bezier(.7,0,.2,1) forwards}
+
+/* app reveal */
+body.booting .app{opacity:0}
+body.booted .app{animation:bootAppIn .45s ease-out both}
+
+@keyframes bootFlicker{
+  0%{opacity:0}
+  8%{opacity:1}
+  14%{opacity:.15}
+  22%{opacity:1}
+  30%{opacity:.35}
+  42%{opacity:1}
+  100%{opacity:1}
+}
+@keyframes bootBlink{50%{opacity:0}}
+@keyframes bootPulse{0%,100%{opacity:1}50%{opacity:.25}}
+@keyframes bootSweep{0%{left:-70px;opacity:1}100%{left:105%;opacity:1}}
+@keyframes crtOff{
+  0%{transform:scale(1,1);opacity:1}
+  60%{transform:scale(1,.005);opacity:1}
+  100%{transform:scale(.001,.005);opacity:0}
+}
+@keyframes bootAppIn{from{opacity:0}to{opacity:1}}
+
+@media (max-width:560px){
+  .boot-meta{display:none}
+  .boot-bar i{width:9px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  #boot.boot-exit,.boot-brand.on,.boot-sweep.go,.boot-entering .cursor,
+  .boot-status .sig,.boot-meta .sig{animation:none!important}
+  #boot.boot-exit{opacity:0;transition:opacity .25s}
+}

@@ -8,10 +8,30 @@
 <link rel="icon" href="https://avatars.githubusercontent.com/u/3919974?v=4">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Doto:wght@700;900&family=Figtree:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/boot.css">
 <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="booting">
+
+<!-- ===== boot / loading screen (nothing glyph) ===== -->
+<div id="boot" aria-hidden="true">
+  <canvas id="bootCanvas"></canvas>
+  <span class="tick tl"></span><span class="tick tr"></span>
+  <span class="tick bl"></span><span class="tick br"></span>
+  <div class="boot-sweep" id="bootSweep"></div>
+  <div class="boot-center">
+    <div class="boot-pre">NXR LABS <b>//</b> SYSTEM BOOT</div>
+    <div class="boot-entering" id="bootEntering"></div>
+    <div class="boot-brand" id="bootBrand">NXRLABS</div>
+    <div class="boot-by" id="bootBy">BY <b>@NXRSKYAA</b></div>
+    <div class="boot-bar" id="bootBar"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="boot-status" id="bootStatus"><span class="sig"></span> ESTABLISHING LINK</div>
+  </div>
+  <div class="boot-meta bl">NXR-LABS.SYS v2.6</div>
+  <div class="boot-meta br"><span class="sig"></span> SIGNAL OK</div>
+  <div class="boot-skip">[ CLICK TO SKIP ]</div>
+</div>
 
 <div class="app">
 
@@ -227,5 +247,6 @@
 
 <script src="js/data.js"></script>
 <script src="js/app.js"></script>
+<script src="js/boot.js"></script>
 </body>
 </html>
