@@ -137,6 +137,85 @@
 }
 #boot.on .boot-skip{opacity:1}
 
+/* ===== language gate ===== */
+.gate{
+  position:absolute;inset:0;z-index:7;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:0 24px;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .4s ease-out,visibility .4s;
+}
+#boot.gate .gate{opacity:1;visibility:visible;pointer-events:auto}
+#boot.gate .boot-center,#boot.gate .boot-skip{opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+
+.gate-pre{
+  font-family:'Space Mono',ui-monospace,monospace;
+  font-size:11px;letter-spacing:.35em;text-transform:uppercase;
+  color:rgba(255,255,255,.45);margin-bottom:26px;
+}
+.gate-pre b{color:#d71921;font-weight:400}
+.gate-title{
+  font-family:'Doto','Space Grotesk',sans-serif;font-weight:900;
+  font-size:clamp(34px,6vw,58px);letter-spacing:.06em;color:#f2f3f5;
+  animation:bootFlicker .7s steps(1,end) both;
+  margin-bottom:40px;
+}
+.gate-cards{display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
+.gate-card{
+  position:relative;
+  width:210px;padding:26px 22px 20px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:8px;
+  display:flex;flex-direction:column;align-items:flex-start;gap:6px;
+  color:#f2f3f5;text-align:left;
+  transition:border-color .18s,background .18s,transform .18s,box-shadow .18s;
+  cursor:pointer;
+}
+.gate-card:hover{
+  border-color:#d71921;background:rgba(215,25,33,.06);
+  transform:translateY(-4px);
+  box-shadow:0 12px 30px rgba(0,0,0,.5);
+}
+.gate-card::before{ /* corner tick */
+  content:'';position:absolute;top:-1px;right:-1px;
+  width:14px;height:14px;
+  border-top:2px solid #d71921;border-right:2px solid #d71921;
+  opacity:0;transition:opacity .18s;
+}
+.gate-card:hover::before{opacity:1}
+.gc-num{
+  font-family:'Space Mono',ui-monospace,monospace;
+  font-size:11px;letter-spacing:.3em;color:#d71921;margin-bottom:10px;
+}
+.gc-name{
+  font-family:'Space Grotesk',sans-serif;font-weight:700;
+  font-size:22px;letter-spacing:.04em;
+}
+.gc-sub{
+  font-family:'Space Mono',ui-monospace,monospace;
+  font-size:10px;letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);
+}
+.gc-key{
+  margin-top:14px;align-self:flex-end;
+  font-family:'Space Mono',ui-monospace,monospace;
+  font-size:10px;letter-spacing:.2em;color:rgba(255,255,255,.3);
+  border:1px solid rgba(255,255,255,.15);border-radius:4px;
+  padding:3px 8px;
+}
+.gate-card.chosen{
+  border-color:#d71921;background:rgba(215,25,33,.12);
+  transform:scale(1.03);
+}
+.gate-card.chosen .gc-name{color:#d71921}
+.gate-hint{
+  margin-top:34px;
+  font-family:'Space Mono',ui-monospace,monospace;
+  font-size:9px;letter-spacing:.3em;text-transform:uppercase;
+  color:rgba(255,255,255,.25);
+}
+
 /* CRT power-off exit */
 #boot.boot-exit{animation:crtOff .55s cubic-bezier(.7,0,.2,1) forwards}
 

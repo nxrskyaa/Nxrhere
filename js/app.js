@@ -1,5 +1,5 @@
 /* ============================================================
-   NXR here — app engine
+   NXR here — app engine (bilingual: id / en)
    ============================================================ */
 (function () {
   'use strict';
@@ -13,6 +13,24 @@
   const headTopic = $('#headTopic');
   const typingEl = $('#typing');
   const typingText = $('#typingText');
+
+  /* ---------- language ---------- */
+  const saved = localStorage.getItem('nxr-lang');
+  let LANG = (saved === 'id' || saved === 'en') ? saved : 'id';
+  let PACK = PACKS[LANG];
+
+  window.setLang = function (lang) {
+    LANG = lang;
+    PACK = PACKS[lang];
+    localStorage.setItem('nxr-lang', lang);
+    document.documentElement.lang = lang;
+    // refresh static UI strings
+    $('#memberActAnasta').textContent = PACK.ui.actAnasta;
+    $('#memberActArc').textContent = PACK.ui.actArc;
+    $('#offlineMsg').textContent = PACK.ui.offlineMsg;
+    $('#popNote').textContent = PACK.ui.popNote;
+    showChannel(currentChan, true);
+  };
 
   let currentChan = 'about-me';
   let msgIndex = 0;
@@ -29,6 +47,10 @@
     if (cls) e.className = cls;
     if (html != null) e.innerHTML = html;
     return e;
+  }
+
+  function nowTime() {
+    return new Date().toTimeString().slice(0, 5).replace(':', '.');
   }
 
   /* ---------- renderers ---------- */
@@ -81,7 +103,6 @@
           <span class="pc-lang"><i style="--lc:${p.lc}"></i>${p.lang}</span>
           ${p.chips.map(c => `<span class="pc-chip">${c}</span>`).join('')}
         </div>`;
-      // spotlight follow cursor
       card.addEventListener('mousemove', ev => {
         const r = card.getBoundingClientRect();
         card.style.setProperty('--mx', ((ev.clientX - r.left) / r.width * 100) + '%');
@@ -152,7 +173,6 @@
       if (link) window.open(link.dataset.url, '_blank', 'noopener');
     });
 
-    // boot sequence
     const boot = [
       ['dim', 'NXR LABS shell v2.6 — type `help` for commands'],
       ['dim', '────────────────────────────────────────────']
@@ -164,11 +184,11 @@
       line('cmd', raw);
       if (!cmd) return;
       if (cmd === 'clear') { body.innerHTML = ''; return; }
-      const fn = TERM_CMDS[cmd];
+      const fn = PACK.termCmds[cmd];
       if (fn) {
         fn().forEach((l, i) => setTimeout(() => line(l[0], l[1], l[2]), 90 + i * 70));
       } else {
-        setTimeout(() => line('err', `zsh: command not found: ${cmd} — coba \`help\``), 120);
+        setTimeout(() => line('err', `zsh: command not found: ${cmd} — ${PACK.termTry} \`help\``), 120);
       }
     }
 
@@ -184,8 +204,7 @@
     });
 
     m.appendChild(term);
-    m.appendChild(el('div', 'term-hint',
-      `psst: coba <code>neofetch</code>, <code>sudo hire-me</code>, atau <code>projects</code>`));
+    m.appendChild(el('div', 'term-hint', PACK.termPsst));
   }
 
   /* ---------- message builder ---------- */
@@ -221,7 +240,7 @@
     head.appendChild(el('span', 'm-author', msg.author));
     head.lastChild.style.color = msg.color || '#f2f3f5';
     if (msg.badge) head.appendChild(el('span', 'm-badge', msg.badge));
-    head.appendChild(el('span', 'm-time', msg.time.includes('/') ? msg.time : 'hari ini pukul ' + msg.time));
+    head.appendChild(el('span', 'm-time', msg.time.includes('/') ? msg.time : PACK.todayAt + msg.time));
     body.appendChild(head);
 
     if (msg.html) body.appendChild(el('div', 'm-text', msg.html));
@@ -238,20 +257,20 @@
 
   /* ---------- channel switching ---------- */
   function showChannel(id, push) {
-    if (!CHANNELS[id]) id = 'about-me';
-    currentChan = id;
+    const chan = PACK.channels[id] ? id : 'about-me';
+    currentChan = chan;
     msgIndex = 0;
 
-    $$('.chan[data-chan]').forEach(c => c.classList.toggle('active', c.dataset.chan === id));
-    headName.textContent = id;
-    headTopic.textContent = CHANNELS[id].topic;
-    inputEl.placeholder = 'Message #' + id;
+    $$('.chan[data-chan]').forEach(c => c.classList.toggle('active', c.dataset.chan === chan));
+    headName.textContent = chan;
+    headTopic.textContent = PACK.channels[chan].topic;
+    inputEl.placeholder = 'Message #' + chan;
 
     messagesEl.innerHTML = '';
-    CHANNELS[id].messages.forEach(m => messagesEl.appendChild(buildMessage(m)));
+    PACK.channels[chan].messages.forEach(m => messagesEl.appendChild(buildMessage(m)));
     scrollBottom(false);
 
-    if (push && history.replaceState) history.replaceState(null, '', '#' + id);
+    if (push && history.replaceState) history.replaceState(null, '', '#' + chan);
     closeSidebar();
   }
 
@@ -264,7 +283,7 @@
 
   window.addEventListener('hashchange', () => {
     const id = location.hash.slice(1);
-    if (id && CHANNELS[id] && id !== currentChan) showChannel(id, false);
+    if (id && PACK.channels[id] && id !== currentChan) showChannel(id, false);
   });
 
   /* ---------- composer + bot ---------- */
@@ -272,12 +291,11 @@
     const lower = userText.toLowerCase().replace(/[?!.,]/g, '').trim();
 
     let reply = null;
-    for (const key of Object.keys(BOT_EASTER)) {
-      if (lower === key || lower.startsWith(key + ' ')) { reply = BOT_EASTER[key]; break; }
+    for (const key of Object.keys(PACK.botEaster)) {
+      if (lower === key || lower.startsWith(key + ' ')) { reply = PACK.botEaster[key]; break; }
     }
-    if (!reply) reply = BOT_REPLIES[Math.floor(Math.random() * BOT_REPLIES.length)];
+    if (!reply) reply = PACK.botReplies[Math.floor(Math.random() * PACK.botReplies.length)];
 
-    // typing indicator
     typingText.textContent = 'NXR Bot is typing...';
     typingEl.classList.add('show');
 
@@ -285,7 +303,7 @@
       typingEl.classList.remove('show');
       const m = buildMessage({
         author: 'NXR Bot', badge: 'BOT', color: '#23a55a', icon: '🤖',
-        time: new Date().toTimeString().slice(0, 5).replace(':', '.'),
+        time: nowTime(),
         html: reply
       });
       m.style.animationDelay = '0ms';
@@ -301,8 +319,9 @@
     inputEl.value = '';
 
     const m = buildMessage({
-      author: 'kamu', color: '#00a8fc', avatar: null, icon: '🫵',
-      time: new Date().toTimeString().slice(0, 5).replace(':', '.'),
+      author: LANG === 'id' ? 'kamu' : 'you',
+      color: '#00a8fc', avatar: null, icon: '🫵',
+      time: nowTime(),
       html: v.replace(/</g, '&lt;').replace(/>/g, '&gt;')
     });
     m.style.animationDelay = '0ms';
@@ -379,6 +398,12 @@
   });
 
   /* ---------- init ---------- */
+  document.documentElement.lang = LANG;
+  $('#memberActAnasta').textContent = PACK.ui.actAnasta;
+  $('#memberActArc').textContent = PACK.ui.actArc;
+  $('#offlineMsg').textContent = PACK.ui.offlineMsg;
+  $('#popNote').textContent = PACK.ui.popNote;
+
   const initial = location.hash.slice(1);
-  showChannel(CHANNELS[initial] ? initial : 'about-me', true);
+  showChannel(PACK.channels[initial] ? initial : 'about-me', true);
 })();

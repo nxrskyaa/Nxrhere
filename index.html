@@ -31,6 +31,27 @@
   <div class="boot-meta bl">NXR-LABS.SYS v2.6</div>
   <div class="boot-meta br"><span class="sig"></span> SIGNAL OK</div>
   <div class="boot-skip">[ CLICK TO SKIP ]</div>
+
+  <!-- language gate -->
+  <div class="gate" id="langGate">
+    <div class="gate-pre">SYSTEM READY <b>//</b> SELECT LANGUAGE</div>
+    <div class="gate-title">PILIH BAHASA</div>
+    <div class="gate-cards">
+      <button class="gate-card" data-lang="id">
+        <span class="gc-num">01</span>
+        <span class="gc-name">BAHASA</span>
+        <span class="gc-sub">INDONESIA</span>
+        <span class="gc-key">[ 1 ]</span>
+      </button>
+      <button class="gate-card" data-lang="en">
+        <span class="gc-num">02</span>
+        <span class="gc-name">ENGLISH</span>
+        <span class="gc-sub">UNITED STATES</span>
+        <span class="gc-key">[ 2 ]</span>
+      </button>
+    </div>
+    <div class="gate-hint">PILIHAN DISIMPAN UNTUK KUNJUNGAN BERIKUTNYA</div>
+  </div>
 </div>
 
 <div class="app">
@@ -170,7 +191,7 @@
       <div class="m-group">bots — 4</div>
       <div class="member">
         <span class="m-ava-wrap"><span class="m-ava" style="--mc:#23a55a">🎮</span><span class="sdot online sm"></span></span>
-        <span class="m-meta"><span class="m-name" style="--nc:#23a55a">AnastaBot<span class="bottag">BOT</span></span><span class="m-act">jagain AnastaChronicle</span></span>
+        <span class="m-meta"><span class="m-name" style="--nc:#23a55a">AnastaBot<span class="bottag">BOT</span></span><span class="m-act" id="memberActAnasta">jagain AnastaChronicle</span></span>
       </div>
       <div class="member">
         <span class="m-ava-wrap"><span class="m-ava" style="--mc:#a855f7">🔮</span><span class="sdot online sm"></span></span>
@@ -178,14 +199,14 @@
       </div>
       <div class="member">
         <span class="m-ava-wrap"><span class="m-ava" style="--mc:#f0b232">🕹️</span><span class="sdot idle sm"></span></span>
-        <span class="m-meta"><span class="m-name" style="--nc:#f0b232">Arcynite<span class="bottag">BOT</span></span><span class="m-act">idle di Arc testnet</span></span>
+        <span class="m-meta"><span class="m-name" style="--nc:#f0b232">Arcynite<span class="bottag">BOT</span></span><span class="m-act" id="memberActArc">idle di Arc testnet</span></span>
       </div>
       <div class="member">
         <span class="m-ava-wrap"><span class="m-ava" style="--mc:#00a8fc">🎫</span><span class="sdot dnd sm"></span></span>
         <span class="m-meta"><span class="m-name" style="--nc:#00a8fc">UniskyPass<span class="bottag">BOT</span></span><span class="m-act">dnd — Monad Spark</span></span>
       </div>
       <div class="m-group">offline — 0</div>
-      <div class="m-off">enggak ada. gw selalu online 😌</div>
+      <div class="m-off" id="offlineMsg">enggak ada. gw selalu online 😌</div>
     </aside>
   </div>
 </div>
@@ -219,7 +240,7 @@
       </div>
       <div class="pop-section">
         <div class="pop-label">note</div>
-        <div class="pop-note">bali based · di github dari 2013 · ship &gt; talk</div>
+        <div class="pop-note" id="popNote">bali based · di github sejak 2013 · ship &gt; talk</div>
       </div>
       <div class="pop-section">
         <div class="pop-label">connections</div>
