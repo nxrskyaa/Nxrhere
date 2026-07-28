@@ -10,12 +10,14 @@
 
   /* ---------- LED matrix ---------- */
   const canvas = document.getElementById('bootCanvas');
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas ? canvas.getContext('2d') : null;
   let W = 0, H = 0, dpr = 1, dots = [], cx = 0, cy = 0;
 
   function build() {
+    if (!ctx) return;
     dpr = Math.min(window.devicePixelRatio || 1, 2);
-    W = canvas.clientWidth; H = canvas.clientHeight;
+    W = canvas.clientWidth || window.innerWidth;
+    H = canvas.clientHeight || window.innerHeight;
     canvas.width = W * dpr; canvas.height = H * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     cx = W * 0.5; cy = H * 0.46;
@@ -38,6 +40,7 @@
   let raf = null;
 
   function frame(now) {
+    if (!ctx) return;
     const t = (now - t0) / 1000;
     ctx.clearRect(0, 0, W, H);
 

@@ -15,14 +15,19 @@
   const typingText = $('#typingText');
 
   /* ---------- language ---------- */
-  const saved = localStorage.getItem('nxr-lang');
+  // safe storage — some browsers/privacy modes throw on localStorage access
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  };
+  const saved = store.get('nxr-lang');
   let LANG = (saved === 'id' || saved === 'en') ? saved : 'id';
   let PACK = PACKS[LANG];
 
   window.setLang = function (lang) {
     LANG = lang;
     PACK = PACKS[lang];
-    localStorage.setItem('nxr-lang', lang);
+    store.set('nxr-lang', lang);
     document.documentElement.lang = lang;
     // refresh static UI strings
     $('#memberActAnasta').textContent = PACK.ui.actAnasta;
