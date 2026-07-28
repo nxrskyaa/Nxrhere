@@ -130,7 +130,7 @@
     statusEl.innerHTML = '<span class="sig"></span> READY';
     statusEl.classList.add('granted');
     barEl.classList.add('done');
-    setTimeout(() => boot.classList.add('gate'), 350);
+    setTimeout(() => boot.classList.add('gate-shown'), 350);
   }
 
   function exit() {

@@ -145,8 +145,8 @@
   opacity:0;visibility:hidden;pointer-events:none;
   transition:opacity .4s ease-out,visibility .4s;
 }
-#boot.gate .gate{opacity:1;visibility:visible;pointer-events:auto}
-#boot.gate .boot-center,#boot.gate .boot-skip{opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+#boot.gate-shown .gate{opacity:1;visibility:visible;pointer-events:auto}
+#boot.gate-shown .boot-center,#boot.gate-shown .boot-skip{opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
 
 .gate-pre{
   font-family:'Space Mono',ui-monospace,monospace;
