@@ -217,7 +217,7 @@ const CHANNELS = {
         contacts: [
           { icon: '🐙', label: 'github', value: 'nxrskyaa', color: '#f2f3f5', url: GH },
           { icon: '𝕏', label: 'x / twitter', value: '@nxrskyaa', color: '#00a8fc', url: 'https://x.com/nxrskyaa' },
-          { icon: '✈️', label: 'telegram', value: '@piimntn', color: '#229ed9', url: 'https://t.me/piimntn' },
+          { icon: '✈️', label: 'telegram', value: '@nxrskyaa', color: '#229ed9', url: 'https://t.me/nxrskyaa' },
           { icon: '📮', label: 'email', value: 'Nxrskyaa@gmail.com', color: '#f0b232', url: 'mailto:Nxrskyaa@gmail.com' }
         ]
       },
@@ -235,7 +235,7 @@ const CHANNELS = {
 const BOT_REPLIES = [
   'noted. nanti gw sampein ke NXR 👍',
   'wkwk bener banget.',
-  'hmm, menarik. coba tanya langsung di <span class="mention">@piimntn</span> telegram.',
+  'hmm, menarik. coba tanya langsung di <span class="mention">@nxrskyaa</span> telegram.',
   'gw cuma bot penjaga server, tapi gw setuju sama lu.',
   'pesan diterima 📬 — NXR biasanya bales kalo lagi gak nge-deploy.',
   'sip. btw udah cek <span class="mention">#projects</span> belum?',
@@ -255,8 +255,8 @@ const BOT_EASTER = {
   'ritual': 'Ritual itu L1 buat on-chain AI inference 🔮 bos gw udah deploy bounty judge di sana — cek <span class="mention">#projects</span>.',
   'monad': 'Monad ⚡ parallel EVM yang kenceng banget. bos gw build <strong>UniskyPass</strong> di sana pas hackathon.',
   'bali': 'Bali 🌴 basecamp resmi NXR LABS. coding sambil denger ombak, katanya.',
-  'kerja': 'open to collab! 🤝 langsung aja DM telegram <span class="mention">@piimntn</span>.',
-  'collab': 'open to collab! 🤝 langsung aja DM telegram <span class="mention">@piimntn</span>.',
+  'kerja': 'open to collab! 🤝 langsung aja DM telegram <span class="mention">@nxrskyaa</span>.',
+  'collab': 'open to collab! 🤝 langsung aja DM telegram <span class="mention">@nxrskyaa</span>.',
   'kontak': 'semua pintu ada di <span class="mention">#contact</span> — github, X, telegram, email.',
   'email': 'email bos gw: <code>Nxrskyaa@gmail.com</code> 📮',
   'terima kasih': 'sama-sama! 🙌',
@@ -305,14 +305,14 @@ const TERM_CMDS = {
     ['dim', '...dan 40+ repo lainnya di github.com/nxrskyaa']
   ],
   contact: () => [
-    ['out', 'telegram : @piimntn'],
+    ['out', 'telegram : @nxrskyaa'],
     ['out', 'email    : Nxrskyaa@gmail.com'],
     ['out', 'github   : github.com/nxrskyaa']
   ],
   socials: () => [
     ['link', 'github.com/nxrskyaa', 'https://github.com/nxrskyaa'],
     ['link', 'x.com/nxrskyaa', 'https://x.com/nxrskyaa'],
-    ['link', 't.me/piimntn', 'https://t.me/piimntn']
+    ['link', 't.me/nxrskyaa', 'https://t.me/nxrskyaa']
   ],
   uptime: () => {
     const yrs = new Date().getFullYear() - 2013;
@@ -329,7 +329,7 @@ const TERM_CMDS = {
   ],
   'sudo hire-me': () => [
     ['err', 'permission denied: lu yang harus hire gw, bukan sebaliknya.'],
-    ['ok', '...tapi oke deh. DM telegram @piimntn, kita ngobrol 🤝']
+    ['ok', '...tapi oke deh. DM telegram @nxrskyaa, kita ngobrol 🤝']
   ],
   'sudo rm -rf /': () => [
     ['err', 'nice try. 🛡️ server ini dijaga 24/7.']
