@@ -544,19 +544,20 @@ img{display:block}
   position:fixed;inset:0;z-index:100;
   background:rgba(0,0,0,.55);
   display:grid;place-items:center;
-  animation:fadeIn .18s;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .18s,visibility .18s;
 }
-@keyframes fadeIn{from{opacity:0}}
+.modal.open{opacity:1;visibility:visible;pointer-events:auto}
 .popout{
   width:340px;max-width:calc(100vw - 32px);
   background:var(--bg-floating);
   border-radius:12px;
   box-shadow:var(--shadow-pop);
   position:relative;
-  animation:popIn .28s cubic-bezier(.2,1.2,.3,1);
   max-height:calc(100dvh - 40px);
   overflow-y:auto;
 }
+.modal.open .popout{animation:popIn .28s cubic-bezier(.2,1.2,.3,1)}
 @keyframes popIn{from{opacity:0;transform:scale(.92) translateY(14px)}}
 .pop-close{
   position:absolute;top:10px;right:10px;z-index:5;
@@ -673,6 +674,7 @@ img{display:block}
   .rail{width:60px}
   .rail-item,.rail-item img,.rail-ico{width:42px;height:42px}
   .rail-item::after{display:none}
+  .sidebar{left:60px}
   .winbar-title span{display:none}
   .proj-grid{grid-template-columns:1fr}
 }

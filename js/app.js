@@ -221,7 +221,7 @@
     head.appendChild(el('span', 'm-author', msg.author));
     head.lastChild.style.color = msg.color || '#f2f3f5';
     if (msg.badge) head.appendChild(el('span', 'm-badge', msg.badge));
-    head.appendChild(el('span', 'm-time', 'hari ini pukul ' + msg.time));
+    head.appendChild(el('span', 'm-time', msg.time.includes('/') ? msg.time : 'hari ini pukul ' + msg.time));
     body.appendChild(head);
 
     if (msg.html) body.appendChild(el('div', 'm-text', msg.html));
@@ -313,8 +313,8 @@
 
   /* ---------- profile popout ---------- */
   const modal = $('#profileModal');
-  function openProfile() { modal.hidden = false; }
-  function closeProfile() { modal.hidden = true; }
+  function openProfile() { modal.classList.add('open'); }
+  function closeProfile() { modal.classList.remove('open'); }
   $('#openProfile').addEventListener('click', openProfile);
   $('#memberNxr').addEventListener('click', openProfile);
   $('#closeProfile').addEventListener('click', closeProfile);
